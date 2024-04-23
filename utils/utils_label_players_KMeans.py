@@ -1,3 +1,26 @@
+"""
+    Final Project: 
+        Ball & Player Tracking - Team Differentiation
+    Group Memebers:
+        Joseph Nelson Farrell, Harshil Bhojwani, Leonardo DeCraca, & Priyanka Dipak Gujar
+    CS 5330 Pattern Recognition & Computer Vision
+    Professor Bruce Maxwell, PhD.
+    Spring 2024
+
+    This file contains a library of functions that perfrom team differentiation KMEANS
+
+    These functions are NOT used in the current setup.
+
+    Functions:
+        1. cluster_k_means
+        2. get_player_color
+        3. assign_team_color
+        4. assign_player_to_team
+    
+    This is approach is based on a similar approach performed here:
+        https://github.com/abdullahtarek/football_analysis
+
+"""
 from sklearn.cluster import KMeans
 
 def cluster_k_means(image):
@@ -61,7 +84,7 @@ def assign_team_color(frame, bounding_boxes):
     
     return team_colors_dict, k_means
 
-def assign_player_to_team(frame, player_bounding_box, team_colors_dict, k_means):
+def assign_player_to_team(frame, player_bounding_box, k_means):
 
     player_color = get_player_color(frame, player_bounding_box)
     team_id = k_means.predict(player_color.reshape(1, -1))

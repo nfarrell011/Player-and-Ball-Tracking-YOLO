@@ -19,6 +19,8 @@ import ultralytics
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.cluster import KMeans
+import ast
 
 # modules
 import utils.utils_label_teams_boolean_mask as ul
@@ -66,12 +68,15 @@ def main(argv):
         color_list = ["white", "red", "yellow"]
         person_cat_list = ['MCI', 'RMA', 'Ref']
         run_full_clip = False
+
     else:
         SOURCE_VIDEO_PATH = RAW_VIDEO_FOLDER + sys.argv[1]
         PROCESSED_FRAMES_FILE_PATH = PROCESSED_FRAMES_FOLDER + sys.argv[2]
-        color_list = list(sys.argv[3])
-        person_cat_list = list(sys.argv[4])
+        color_list = ast.literal_eval(sys.argv[3])
+        person_cat_list = ast.literal_eval(sys.argv[4])
         run_full_clip = bool(sys.argv[5])
+        print(run_full_clip)
+        print(type(run_full_clip))
     
     # check source video
     if not os.path.exists(SOURCE_VIDEO_PATH):
@@ -87,7 +92,7 @@ def main(argv):
     ball_class_id = 32
     person_class_id = 0
     show_masked_images = False
-    generate_mask_examples_figs = True
+    generate_mask_examples_figs = False
     num_mask_example_figs = 0
 
     ############################################################################################################
@@ -278,7 +283,7 @@ def main(argv):
 
             player_region = frame[int(box[1]): int(box[3]),
                     int(box[0]): int(box[2])]
-            
+                        
             color_range_dict = ul.get_color_ranges(color_list)
 
             color, masked_images = ul.get_player_team_color(player_region, color_range_dict, color_list)
@@ -308,10 +313,10 @@ def main(argv):
             # set the color and text for each bounding box
             if color == color_list[0]:                                  
                 color = (255, 255, 255)
-                text = person_cat_list[0]
+                text = person_cat_list[0] 
             elif color == color_list[1]:
                 color = (0, 0, 255)
-                text = person_cat_list[1]
+                text = person_cat_list[1] 
             else:
                 color = (0, 255, 255)
                 text = person_cat_list[2]
