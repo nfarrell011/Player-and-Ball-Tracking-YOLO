@@ -11,9 +11,14 @@ ___
 ### Group Member Names:
 * Joseph Nelson Farrell 
 * Harshil Bhojwani
-* Leonardo DeCraca
+* Leonardo DaGraca
 * Priyanka Dipak Gujar
 
+___
+
+### Presented Live:
+
+Yes.
 ___
 
 ### Project Description
@@ -83,12 +88,23 @@ python3 process_video.py
 ### Additional Functionality:
 If the user would like the generate graphics of the boolean masking to inspect the classification, this can be done by activating the boolean variable ```generate_mask_example_figs``` on line ```90```. This will save figures to the ```figs``` folder using ```matplotlib```. To inspect the masking without generating figures using ```openCV```, the user can activate the boolean variable ```show_masked_images``` on line ```89```.
 
-### Unused Files:
+### Additional Files:
 ```utils/utils_label_players_HSV.py```
-* The file contains functions were used to explore using HSV histograms and histogram matching to perform team classification. 
+* This file contains functions that were used to explore using HSV histograms and histogram matching to perform team classification. 
   
-```utils/utils_label_KMEANS.py```
-* The file contains functions were used to explore using KMeans to perform team classification. In reality, this worked well and is a more robust approach than the current implementation. At the time of submission, however, this strategy still had glitches. 
+```utils_general.py```
+* This file contains the following helper functions:
+  * ```clip_video``` 
+    * This function is used to clip videos.
+  * ```track_ball``` 
+    * This function is used to draw a ployline that tracks the balls trajectory. 
+  
+```create_figs.py``` 
+* This file is used to generate MatPlotLib figures of the specific frames.
+  
+### Acknowledgements:
+
+Please see ```PRCV Final Project Report``` doc.
 
 
 

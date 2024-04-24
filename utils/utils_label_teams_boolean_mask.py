@@ -36,8 +36,9 @@ def get_color_ranges(color_list: list) -> dict:
                     'white': ([187, 169, 112], [255, 255, 255]),
                     'red': ([0, 0, 50], [100, 100, 255]),
                     'yellow': ([0, 100, 100], [10, 255, 255]),
-                    'black': ([0, 0, 0], [50, 50, 50]),
-                    'blue': ([43, 31, 4], [250, 88, 50]) 
+                    'black': ([0, 0, 0], [80, 80, 80]),
+                    'blue': ([43, 31, 4], [250, 88, 50]),
+                    'purple': ([120, 80, 100], [200, 120, 175])
                     }
 
 
@@ -80,7 +81,7 @@ def get_player_team_color(player_region: np.ndarray, color_range_dict: dict, col
         mask = cv2.inRange(player_region, lower, upper)
         
         # apply mask to player region
-        masked_image = cv2.bitwise_and(player_region, player_region, mask=mask)
+        masked_image = cv2.bitwise_and(player_region, player_region, mask = mask)
         
         # save the masked image; for display ONLY
         masked_images[color] = masked_image

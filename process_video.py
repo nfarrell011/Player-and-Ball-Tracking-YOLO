@@ -8,7 +8,7 @@
     Spring 2024
 
     This file will process a video clip. It will track the ball (using a Kalman filter), track players (people),
-     and differentiate groupes of people (different teams and referee).
+    and differentiate groupes of people (different teams and referee).
 """
 # libraries
 from pathlib import Path
@@ -24,6 +24,7 @@ import ast
 
 # modules
 import utils.utils_label_teams_boolean_mask as ul
+import utils.utils_general as ug
 
 def main(argv):
     """
@@ -63,8 +64,8 @@ def main(argv):
         print()
         print(f"The program is continuing with default values. Use sys.args to adjust. See README.")
         print()
-        PROCESSED_FRAMES_FILE_PATH = PROCESSED_FRAMES_FOLDER + "original_PROCESSED.mp4"
-        SOURCE_VIDEO_PATH = f'{RAW_VIDEO_FOLDER}original_1.mp4'
+        PROCESSED_FRAMES_FILE_PATH = PROCESSED_FRAMES_FOLDER + "original_PROCESSED_ball_track.mp4"
+        SOURCE_VIDEO_PATH = f'{RAW_VIDEO_FOLDER}original.mp4'
         color_list = ["white", "red", "yellow"]
         person_cat_list = ['MCI', 'RMA', 'Ref']
         run_full_clip = False
@@ -94,6 +95,7 @@ def main(argv):
     show_masked_images = False
     generate_mask_examples_figs = False
     num_mask_example_figs = 0
+    ball_track_history_list = []
 
     ############################################################################################################
     #################### This will run YOLO on the full video, if 'run_full_clip' parameter is TRUE ############
@@ -231,6 +233,9 @@ def main(argv):
                 thickness = 1
                 line_type = cv2.LINE_AA
                 cv2.putText(frame, text, start_point, font, font_scale, color, thickness, line_type)
+
+                # track ball
+                ug.track_ball(x, y, x + w, y + h, frame, ball_track_history_list)
                 
             # Kalman prediction
             prediction = kalman.predict()
@@ -258,9 +263,13 @@ def main(argv):
 
                     # draw rect
                     cv2.rectangle(frame, start_point, end_point, color, thickness_rect)
-
+                
                     # put text
                     cv2.putText(frame, text, start_pt, font, font_scale, color, thickness_text, line_type)
+
+                    # track ball
+                    ug.track_ball(x, y, x + w, y + h, frame, ball_track_history_list)
+
                 else:
                     text = f'The BALL has been lost!! Prediction Terminated!!'
                     font = cv2.FONT_HERSHEY_COMPLEX
